@@ -1,0 +1,166 @@
+@import 'tailwindcss';
+
+/* Short phone screens (iPhone SE with Safari bars): tighten the hero so both buttons stay above the fold. */
+@custom-variant short (@media (max-height: 620px) and (max-width: 639px));
+
+@font-face {
+  font-family: 'Marcellus';
+  src: url('/fonts/marcellus-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/fonts/hanken-grotesk-latin.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-display: 'Marcellus', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+
+  /* Stone, lightest to darkest */
+  --color-marble: #f6f2ec;
+  --color-plaster: #eee8df;
+  --color-limestone: #e4dbcf;
+  --color-travertine: #d6cabb;
+  --color-umber: #1f1b17;
+  --color-shadow: #14110e;
+
+  /* Text */
+  --color-ink: #1c1916;
+  --color-muted: #574f47;
+  --color-dim: #a89c8e; /* muted text on dark */
+
+  /* The one accent: raw sienna, the warm vein in travertine */
+  --color-sienna: #845530;
+  --color-sienna-light: #cfa57f; /* same hue, for use on dark only */
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-shadow);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-sienna);
+    color: var(--color-marble);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sienna);
+    outline-offset: 3px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-sienna-light);
+  }
+}
+
+@utility eyebrow {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3.25rem;
+    padding: 0 1.75rem;
+    border-radius: 2px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  .btn-solid {
+    background: var(--color-sienna);
+    color: var(--color-marble);
+  }
+  .btn-solid:hover {
+    background: #6e4627;
+  }
+
+  .btn-line {
+    border: 1px solid rgb(28 25 22 / 0.3);
+    color: var(--color-ink);
+  }
+  .btn-line:hover {
+    border-color: var(--color-ink);
+  }
+
+  .btn-line-dark {
+    border: 1px solid rgb(246 242 236 / 0.28);
+    color: var(--color-marble);
+  }
+  .btn-line-dark:hover {
+    border-color: rgb(246 242 236 / 0.7);
+  }
+
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35em;
+    text-decoration-color: var(--color-sienna);
+  }
+  .on-dark .link {
+    text-decoration-color: var(--color-sienna-light);
+  }
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Museum lighting: one warm pool from the upper left. */
+  .hero-light {
+    background:
+      radial-gradient(110% 65% at 8% -8%, rgb(224 212 196 / 0.13), transparent 62%),
+      radial-gradient(70% 45% at 88% -5%, rgb(224 212 196 / 0.07), transparent 70%);
+  }
+
+  /* The column comes out of the dark at the top and sinks back into it. */
+  .column-fade {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 0.85) 30%, transparent 88%);
+    mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 0.85) 30%, transparent 88%);
+  }
+}
+
+/* Motion only on tap or click, and only if the visitor hasn't asked for less. */
+@media (prefers-reduced-motion: no-preference) {
+  .btn,
+  .link {
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      text-decoration-thickness 150ms ease;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+}
